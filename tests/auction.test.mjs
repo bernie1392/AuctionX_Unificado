@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {buildAuction,positionValue,quoteTransfer} from '../src/auctionEngine.mjs';
+const short={id:'short1',symbol:'BTCUSDT',side:'SHORT',margin:1000,qty:.1,entry:100000};
+test('SHORT PnL and equity: price rises 5%',()=>{assert.deepEqual(positionValue(short,105000),{pnl:-500,equity:500,notional:10500,minimumMargin:2100});});
+test('LONG PnL increases when price rises',()=>{const p={...short,side:'LONG'};assert.equal(positionValue(p,105000).pnl,500);});
+test('transfer funds cannot be created by discount: seller receives payment, buyer gets equity',()=>{const a=buildAuction({position:short,mark:105000,minimumPct:95,now:0});const q=quoteTransfer({auction:a,position:short,mark:105000,bidPct:95,buyerFree:3000,now:1000});assert.equal(q.payment,475);assert.equal(q.discount,25);assert.equal(q.topUp,1600);assert.equal(q.fee,.475);assert.equal(q.required,2075.475);assert.equal(q.buyerInitialMargin,2100);});
+test('refuses expired auction',()=>{const a=buildAuction({position:short,mark:105000,minimumPct:95,now:0});assert.throws(()=>quoteTransfer({auction:a,position:short,mark:105000,bidPct:95,buyerFree:10000,now:300001}),/venció/)});
+test('refuses stale price drift',()=>{const a=buildAuction({position:short,mark:105000,minimumPct:95,now:0});assert.throws(()=>quoteTransfer({auction:a,position:short,mark:103500,bidPct:95,buyerFree:10000,now:1000}),/Precio cambió/)});
+test('refuses buyer insufficient balance',()=>{const a=buildAuction({position:short,mark:105000,minimumPct:95,now:0});assert.throws(()=>quoteTransfer({auction:a,position:short,mark:105000,bidPct:95,buyerFree:200,now:1000}),/saldo ficticio/)});
+test('refuses positions without equity',()=>{assert.throws(()=>buildAuction({position:short,mark:111000,minimumPct:95,now:0}),/patrimonio positivo/)});
+test('rejects bad minimum and low bids',()=>{assert.throws(()=>buildAuction({position:short,mark:105000,minimumPct:80,now:0}),/90%/);const a=buildAuction({position:short,mark:105000,minimumPct:95,now:0});assert.throws(()=>quoteTransfer({auction:a,position:short,mark:105000,bidPct:92,buyerFree:10000,now:1}),/mínimo/)});

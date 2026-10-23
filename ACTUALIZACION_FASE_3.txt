@@ -1,0 +1,25 @@
+AuctionX — actualizacion incremental de subastas simuladas (Fase 3, prototipo)
+
+1. COPIA DE SEGURIDAD: haz una copia de tu carpeta AuctionX_Unificado antes de sobrescribir archivos.
+2. Copia a tu proyecto existente:
+   src/main.jsx
+   src/style.css
+   src/auctionEngine.mjs
+   tests/auction.test.mjs
+   package.json (o agrega a scripts la entrada "test": "node --test tests/*.test.mjs").
+3. En CMD abierto en la raiz del proyecto: npm test
+4. Luego ejecuta: npm run build
+5. Para abrir en modo desarrollo: npm run dev
+6. Selecciona BTC/ETH/SOL, abre LONG o SHORT en el simulador, pulsa Subastar y ve a la pestaña Subastas.
+7. Ajusta porcentaje minimo y oferta de B. Comprador B es una SIMULACION INTERNA, no la billetera B de MetaMask.
+8. El precio usado es Spot de Binance SOLO para demostracion. No apto para liquidaciones de futuros reales.
+
+LIMITACIONES Y SEGURIDAD:
+- No toca contratos ni saldos on-chain. No transfiere axUSDT.
+- Las subastas son ficticias, una oferta de B por posicion, sin firmas ni escrow real.
+- La pagina NO es un exchange de produccion. El margen inicial y las comisiones son HIPOTESIS.
+- Sin oracle de produccion, funding, order book ni motor de liquidaciones.
+- La posicion se reabre economicamente para B con precio vigente; no se transfiere historia de PnL.
+- Los datos de simulacion en React no persisten al recargar.
+- Se han ejecutado pruebas unitarias npm test (8 de 8 correctas) en el entorno de preparacion.
+- No se ha validado la compilacion Vite ni pruebas E2E de navegador en este entorno: ejecuta npm run build y valida UI local antes de continuar.

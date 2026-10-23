@@ -1,0 +1,23 @@
+AUCTIONX UNIFICADO — FASES 1 Y 2 (PROTOTIPO)
+==========================================
+1. Instala Node.js LTS si aún no lo tienes: https://nodejs.org/
+2. Descomprime el ZIP y abre la carpeta AuctionX_Unificado en Windows.
+3. Escribe cmd en la barra de direcciones del Explorador y pulsa Enter.
+4. Ejecuta: npm install
+5. Ejecuta: npm run dev
+6. Abre en Chrome la URL que Vite indique, normalmente http://127.0.0.1:5173
+7. Selecciona BTC, ETH o SOL. Si Binance bloquea la conexión en tu red/país, la interfaz mostrará "Sin datos"; NO se inventan precios.
+8. Prueba LONG/SHORT en modo SIMULACIÓN. No se utilizan los fondos de MetaMask.
+9. En 'Billetera y bóveda' conecta MetaMask, usa Arbitrum Sepolia e introduce las direcciones PÚBLICAS de tus contratos token y bóveda. Pulsa Guardar y Verificar saldos.
+10. Termina con CTRL+C en CMD.
+
+IMPORTANTE
+- Este proyecto solo LEE saldos de tus contratos existentes. No puede depositar, retirar ni transferir tokens.
+- El trading no utiliza ni bloquea axUSDT on-chain. El margen, PnL y el cierre son simulaciones en la memoria del navegador; se pierden al recargar.
+- El PnL no incluye funding, comisiones, deslizamiento ni liquidaciones reales. No sirve para gestionar dinero.
+- Los datos Binance Spot no equivalen al precio índice/mark de un futuro y no deben usarse para liquidaciones reales.
+- Si tu conexión no permite consultar Binance, NO se muestran datos inventados. Puedes integrar otro proveedor autorizado más adelante.
+- API de Binance Spot: https://github.com/binance/binance-spot-api-docs
+- Lightweight Charts: https://github.com/tradingview/lightweight-charts (Apache 2.0). Conservar atribución y avisos de licencia.
+- No compartas nunca claves privadas, frases semilla o secretos.
+- Para cambiar el código, modifica los archivos src/; Vite actualizará el navegador. No necesitas volver a descargar HTML.
